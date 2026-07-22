@@ -1,10 +1,12 @@
 import {
   HeadContent,
   Scripts,
+  Outlet,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import Navbar from "../components/layout/navbar"
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
@@ -37,8 +39,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
+  component: RootComponent,
   shellComponent: RootDocument,
 })
+
+function RootComponent() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -46,8 +58,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
+
       <body>
         {children}
+
         <TanStackDevtools
           config={{
             position: 'bottom-right',
@@ -60,6 +74,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             TanStackQueryDevtools,
           ]}
         />
+
         <Scripts />
       </body>
     </html>
