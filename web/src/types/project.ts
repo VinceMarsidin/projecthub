@@ -4,6 +4,7 @@ export type ProjectStatus =
     | "Done"
 
 export interface Project {
+    id: string
     name: string
     description: string
     status: ProjectStatus

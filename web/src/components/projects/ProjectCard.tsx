@@ -5,6 +5,7 @@ import type { Project } from "../../types/project"
 interface ProjectCardProps extends Project { }
 
 export default function ProjectCard({
+    id,
     name,
     description,
     status,
@@ -13,7 +14,7 @@ export default function ProjectCard({
         <Link
             to="/projects/$projectId"
             params={{
-                projectId: name,
+                projectId: id,
             }}
             className="block rounded-lg border p-4 shadow-sm hover:shadow-md"
         >

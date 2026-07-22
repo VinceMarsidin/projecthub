@@ -10,7 +10,7 @@ function ProjectDetailPage() {
   const { projectId } = Route.useParams()
 
   const project = projects.find(
-    (project) => project.name === projectId
+    (project) => project.id === projectId
   )
 
   if (!project) {
