@@ -1,7 +1,14 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, redirect, Link } from '@tanstack/react-router'
 import { getProjects } from '../server/functions/projects'
+import { getServerSession } from '../server/functions/auth'
 
 export const Route = createFileRoute('/dashboard')({
+    beforeLoad: async () => {
+        const session = await getServerSession()
+        if (!session) {
+            throw redirect({ to: '/login' })
+        }
+    },
     loader: () => getProjects(),
     component: DashboardPage,
 })
@@ -21,15 +28,21 @@ function DashboardPage() {
                 </Link>
             </div>
 
-            {projects.map((project) => (
-                <li key={project.id} className="border rounded p-3">
-                    <Link to="/projects/$id" params={{ id: project.id }} className="block">
-                        <p className="font-semibold hover:underline">{project.name}</p>
-                        <p className="text-sm text-gray-500">{project.description}</p>
-                        <p className="text-sm text-gray-500">{project.status}</p>
-                    </Link>
-                </li>
-            ))}
+            {projects.length === 0 ? (
+                <p className="text-gray-500">Nog geen projecten. Maak er een aan!</p>
+            ) : (
+                <ul className="space-y-2">
+                    {projects.map((project) => (
+                        <li key={project.id} className="border rounded p-3">
+                            <Link to="/projects/$id" params={{ id: project.id }} className="block">
+                                <p className="font-semibold hover:underline">{project.name}</p>
+                                <p className="text-sm text-gray-500">{project.description}</p>
+                                <p className="text-sm text-gray-500">{project.status}</p>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     )
 }

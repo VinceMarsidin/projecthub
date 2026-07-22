@@ -1,8 +1,15 @@
-import { createFileRoute, notFound, useNavigate, useRouter } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect, useNavigate, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { getProject, updateProject, deleteProject } from '../../server/functions/projects'
+import { getServerSession } from '../../server/functions/auth'
 
 export const Route = createFileRoute('/projects/$id')({
+    beforeLoad: async () => {
+        const session = await getServerSession()
+        if (!session) {
+            throw redirect({ to: '/login' })
+        }
+    },
     loader: async ({ params }) => {
         const project = await getProject({ data: params.id })
         if (!project) throw notFound()

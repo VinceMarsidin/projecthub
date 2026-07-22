@@ -1,8 +1,15 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, redirect } from '@tanstack/react-router'
 import { useState } from 'react'
 import { createProject } from '../../server/functions/projects'
+import { getServerSession } from '../../server/functions/auth'
 
 export const Route = createFileRoute('/projects/new')({
+    beforeLoad: async () => {
+        const session = await getServerSession()
+        if (!session) {
+            throw redirect({ to: '/login' })
+        }
+    },
     component: NewProjectPage,
 })
 
