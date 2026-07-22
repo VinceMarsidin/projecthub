@@ -1,7 +1,15 @@
-import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, pgEnum } from 'drizzle-orm/pg-core'
 
-export const todos = pgTable('todos', {
-  id: serial().primaryKey(),
-  title: text().notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
+export const projectStatus = pgEnum('project_status', [
+  'Planning',
+  'In Progress',
+  'Done',
+])
+
+export const projects = pgTable('projects', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  status: projectStatus('status').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 })
