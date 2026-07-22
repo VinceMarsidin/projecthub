@@ -1,34 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ProjectCard from "../components/projects/ProjectCard";
+import { projects } from "../data/projects";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
 });
 
 function DashboardPage() {
-  const projects = [
-    {
-      name: "ProjectHub",
-      description: "Een Jira alternatief bouwen",
-      status: "In Progress",
-    },
-    {
-      name: "Portfolio",
-      description: "Persoonlijke developer website",
-      status: "Planning",
-    },
-    {
-      name: "Mobile App",
-      description: "React Native experiment",
-      status: "Done",
-    },
-    {
-      name: "Next.js experiment",
-      description: "Next.js experiment",
-      status: "Planning",
-    },
-  ];
-
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>
